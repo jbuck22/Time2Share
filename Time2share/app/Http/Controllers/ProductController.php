@@ -17,14 +17,39 @@ class ProductController extends Controller
         ]);
     }
 
+    public function newproduct(): View
+    {
+        return view('products.newproduct');
+    }
+
 
     public function store(Request $request): RedirectResponse
-    {
+    { 
         $validated = $request->validate([
-            'message' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|string|max:255',
+            'deadline' => 'required|date',
         ]);
+    
+        // Voeg de 'owner_id' handmatig toe aan de data array
+        $validated['owner_id'] = $request->user()->id;
+    
+        // Sla het product op met de extra 'owner_id'
+        Product::create($validated);
+    
+        return redirect(route('products.index'))->with('success', 'product succesvol aangemaakt');
+    }  
 
-        $request->user()->products()->create($validated);
-        return redirect(route('products.index'));
-    }
+
+
+    // public function store(Request $request): RedirectResponse
+    // {
+    //     $validated = $request->validate([
+    //         'message' => 'required|string|max:255',
+    //     ]);
+
+    //     $request->user()->products()->create($validated);
+    //     return redirect(route('products.index'));
+    // }
 }
