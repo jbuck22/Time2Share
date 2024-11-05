@@ -19,11 +19,18 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="text-gray-800">{{ $product->owner_id }}</span>
-                                <span class="text-gray-800">{{ $product->category }}</span>
+                                <span class="text-gray-800 font-bold">{{ $product->owner->name }}</span>
+                                <!-- Controleer of er een loaner is -->
+                                @if($product->loaner)
+                                    <span class="text-gray-800 ml-4 ">Loaner: {{ $product->loaner->name }}</span>
+                                @else
+                                    <span class="text-gray-500 ml-4">Not loaned out</span>
+                                @endif
+                                
                                 <small class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
                             </div>
                         </div>
+                        <span class="text-gray-800">{{ $product->category }}</span>
                         <p class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
                     </div>
                 </div>

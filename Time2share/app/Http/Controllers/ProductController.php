@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index(): View
     {
         return view('products.index', [
-            'products' => Product::with('user')->latest()->get(),
+            'products' => Product::with('owner', 'loaner')->latest()->get(),
         ]);
     }
 

@@ -27,8 +27,13 @@ class Product extends Model
         'loaned_out',
     ];
 
-    public function user(): BelongsTo
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function loaner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'loaner_id');
     }
 }
