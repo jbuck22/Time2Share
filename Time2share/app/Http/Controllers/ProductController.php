@@ -10,11 +10,21 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('products.index', [
-            'products' => Product::with('owner', 'loaner')->latest()->get(),
-        ]);
+
+        $search = $request->input('search');
+        $products = Product::with('owner', 'loaner')
+            ->where('loaned_out', 0)
+            ->when($search, function ($query, $search) {
+                return $query->where('description', 'like', "%{$search}%")
+                            ->orWhere('category', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->get();
+            return view('products.index', [
+                'products' => $products,
+            ]);
     }
 
     public function newproduct(): View
@@ -41,15 +51,16 @@ class ProductController extends Controller
         return redirect(route('products.index'))->with('success', 'product succesvol aangemaakt');
     }  
 
-
-
-    // public function store(Request $request): RedirectResponse
+    // public function search(Request $request)
     // {
-    //     $validated = $request->validate([
-    //         'message' => 'required|string|max:255',
-    //     ]);
+    //     $search = $request->input('search');
+    //     $products = Product::query()
+    //         ->when($search, function ($query, $search) {
+    //             return $query->where('description', 'like', "%{$search}%")
+    //                         ->orWhere('category', 'like', "%{$search}%");
+    //         })
+    //         ->get();
 
-    //     $request->user()->products()->create($validated);
-    //     return redirect(route('products.index'));
+    //     return view('products.index', compact('products'));
     // }
 }

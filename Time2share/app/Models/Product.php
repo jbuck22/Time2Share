@@ -36,4 +36,13 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'loaner_id');
     }
+
+    protected static function booted()
+    {
+        static::saving(function($product){
+            if(!$product->loaned_out){
+                $product->loaner_id = null;
+            }
+        });
+    }
 }
