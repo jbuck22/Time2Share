@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function () {  
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -28,7 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/products/new', [ProductController::class, 'newproduct'])->name('products.newproduct');
-    // Route::get('/products', [ProductController::class, 'search'])->name('products.search');
+    Route::get('/products/{product}/loan', [ProductController::class, 'showLoanForm'])->name('products.loanForm');
+    Route::post('/products/{product}/loan', [ProductController::class, 'productLoaned'])->name('products.loan');
+    Route::patch('/dashboard', [ProductController::class, 'productReturned'])->name('products.return');
 });
 
 Route::resource('products', ProductController::class)

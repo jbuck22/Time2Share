@@ -32,6 +32,28 @@ class ProductController extends Controller
         return view('products.newproduct');
     }
 
+    public function productReturned(Product $product): RedirectResponse
+    {
+        $product->loaned_out = 0;
+        $product->loaner_id = null;
+        $product->save();
+        return redirect()->back();
+    }
+
+    public function productLoaned(Request $request, Product $product): RedirectResponse
+    {
+        $product->loaned_out = 1;
+        $product->loaner_id = $request->user()->id;
+        $product->save();
+        
+        return redirect()->route('products.index')->with('success', 'Product successfully loaned.');
+    }
+
+    public function showLoanForm(Product $product): View
+    {
+    return view('products.loan', ['product' => $product]);
+    }
+
 
     public function store(Request $request): RedirectResponse
     { 

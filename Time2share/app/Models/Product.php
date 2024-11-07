@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\RedirectResponse;
 
 class Product extends Model
 {
@@ -37,12 +38,5 @@ class Product extends Model
         return $this->belongsTo(User::class, 'loaner_id');
     }
 
-    protected static function booted()
-    {
-        static::saving(function($product){
-            if(!$product->loaned_out){
-                $product->loaner_id = null;
-            }
-        });
-    }
+
 }

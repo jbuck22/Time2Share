@@ -25,7 +25,9 @@
                                 @if($product->loaner)
                                     <span class="text-gray-800 ml-4 ">Loaner: {{ $product->loaner->name }}</span>
                                 @else
-                                    <span class="text-gray-500 ml-4">Not loaned out</span>
+                                <a href="{{ route('products.loanForm', $product->id) }}">
+                                    <x-primary-button class="mt-4">{{ __('Loan') }}</x-primary-button>
+                                </a>
                                 @endif
                                 
                                 <small class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
