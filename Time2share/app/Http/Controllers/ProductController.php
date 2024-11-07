@@ -14,15 +14,13 @@ class ProductController extends Controller
     {
 
         $search = $request->input('search');
-        $products = Product::with('owner', 'loaner')
-            ->where('loaned_out', 0)
-            ->when($search, function ($query, $search) {
-                return $query->where('description', 'like', "%{$search}%")
-                            ->orWhere('category', 'like', "%{$search}%");
-            })
-            ->latest()
-            ->get();
-            return view('products.index', [
+        $products = Product::with('owner', 'loaner')->where('loaned_out', 0)->when($search, function ($query, $search) 
+            {
+                return $query->where('description', 'like', "%{$search}%")->orWhere('category', 'like', "%{$search}%");
+            })->latest()->get();
+
+            return view('products.index', 
+            [
                 'products' => $products,
             ]);
     }
@@ -51,7 +49,7 @@ class ProductController extends Controller
 
     public function showLoanForm(Product $product): View
     {
-    return view('products.loan', ['product' => $product]);
+        return view('products.loan', ['product' => $product]);
     }
 
 
@@ -72,17 +70,4 @@ class ProductController extends Controller
     
         return redirect(route('products.index'))->with('success', 'product succesvol aangemaakt');
     }  
-
-    // public function search(Request $request)
-    // {
-    //     $search = $request->input('search');
-    //     $products = Product::query()
-    //         ->when($search, function ($query, $search) {
-    //             return $query->where('description', 'like', "%{$search}%")
-    //                         ->orWhere('category', 'like', "%{$search}%");
-    //         })
-    //         ->get();
-
-    //     return view('products.index', compact('products'));
-    // }
 }
