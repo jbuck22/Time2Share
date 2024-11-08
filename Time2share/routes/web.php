@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{product}/loan', [ProductController::class, 'productLoaned'])->name('products.loan');
     Route::get('/products/overview', [PendingReturnController::class, 'showPendingReturns'])->name('products.overview');
     Route::post('/products/{loanedProduct}/overview', [PendingReturnController::class, 'returningProduct'])->name('products.return');
-    // Route::patch('/dashboard', [ProductController::class, 'productReturned'])->name('products.return');
+    Route::patch('/products/{product}/overview', [ProductController::class, 'productReturned'])->name('products.accept');
 });
 
 Route::resource('products', ProductController::class)

@@ -17,25 +17,30 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="text-gray-800 font-bold">{{ $product->owner->name }}</span>
-                                <!-- Controleer of er een loaner is -->
-                                @if($product->loaner)
-                                {{-- ZET HIER IF PRODUCT IS IN PENDING -> LAAT HET ZIEN --}}
-                                    <span class="text-gray-800 ml-4 ">Loaner: {{ $product->loaner->name }}</span>
-                                    <section class="flex flex-wrap space-x-2">
-                                        {{-- <form action="{{ route('dashboard.store', $product) }}" method="POST" class="flex-1 mb-2">
-                                            @csrf
-                                            <x-primary-button type="submit" class="w-full px-2 py-1 text-xs bg-green-800 hover:bg-green-600 focus:bg-green-600">Return</x-primary-button>
-                                        </form> --}}
-                                    </section>
+                                @if($product->owner_id == auth()->id() && in_array( $product->id, $pendingReturns))
+                                <form method="POST" action="{{ route('products.accept', $product) }}"  class="flex-1 mb-2">
+                                    @csrf
+                                    @method('PATCH') 
+                                    <span class="text-gray-800 font-bold">{{ $product->owner->name }}</span>
+                                    @if ($product->loaner)
+                                        <span class="text-gray-800 ml-4 ">Loaner: {{ $product->loaner->name }}</span>
+                                    @endif
+                                    <small class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
+                                    <p class="text-gray-800 font-bold">{{ $product->category }}</p>
+                                    <p class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
+                                    <x-primary-button type="submit">{{ __('Accept Return') }}</x-primary-button>
+                                </form>
                                 @else
+                                    <span class="text-gray-800 font-bold">{{ $product->owner->name }}</span>
+                                    <small class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
+                                    <p class="text-gray-800 font-bold">{{ $product->category }}</p>
+                                    <p class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
                                 @endif
                                 
-                                <small class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
+                                
                             </div>
                         </div>
-                        <span class="text-gray-800">{{ $product->category }}</span>
-                        <p class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
+
                     </div>
                 </div>
             @endforeach
@@ -47,10 +52,7 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <!-- Controleer of er een loaner is -->
-                                @if($loanedProduct->loaner_id == auth()->id())
-                                {{-- ZET HIER IF PRODUCT IS IN PENDING -> LAAT HET ZIEN --}}
-                                    
+                                @if($loanedProduct->loaner_id == auth()->id() && !in_array( $loanedProduct->id, $pendingReturns))   
                                     <section class="flex flex-wrap space-x-2">
                                         <form method="POST" action="{{ route('products.return', $loanedProduct) }}"  class="flex-1 mb-2">
                                             @csrf
@@ -65,8 +67,6 @@
                                             <x-primary-button type="submit">{{ __('Return Product') }}</x-primary-button>
                                         </form>
                                     </section>
-                                @else
-                                    IT DOESNT WORK
                                 @endif
                             </div>
                         </div>

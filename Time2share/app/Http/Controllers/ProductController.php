@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\PendingReturn;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -29,13 +30,15 @@ class ProductController extends Controller
 
     public function productReturned(Request $request): RedirectResponse
     {
-        $product = Product::where('id', $request->id);
+        $product = Product::where('id', $request->product)->first();
         
         $product->update([
             'loaner_id' => null,
             'loaned_out' => 0
         ]);
 
+        $pendingReturn = PendingReturn::where('product', $product->id);
+        $pendingReturn->delete();
         // $product->loaned_out = 0;
         // $product->loaner_id = null;
         // $product->save();
