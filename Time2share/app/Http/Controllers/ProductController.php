@@ -25,16 +25,20 @@ class ProductController extends Controller
             ]);
     }
 
-    public function newproduct(): View
-    {
-        return view('products.newproduct');
-    }
 
-    public function productReturned(Product $product): RedirectResponse
+
+    public function productReturned(Request $request): RedirectResponse
     {
-        $product->loaned_out = 0;
-        $product->loaner_id = null;
-        $product->save();
+        $product = Product::where('id', $request->id);
+        
+        $product->update([
+            'loaner_id' => null,
+            'loaned_out' => 0
+        ]);
+
+        // $product->loaned_out = 0;
+        // $product->loaner_id = null;
+        // $product->save();
         return redirect()->back();
     }
 
@@ -70,4 +74,9 @@ class ProductController extends Controller
     
         return redirect(route('products.index'))->with('success', 'product succesvol aangemaakt');
     }  
+
+    public function newproduct(): View
+    {
+        return view('products.newproduct');
+    }
 }

@@ -14,6 +14,8 @@ class PendingReturn extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'product'
+        'product',
+        'owner_id',
+        'loaner_id'
     ];
 }

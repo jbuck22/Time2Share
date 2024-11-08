@@ -20,9 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {  
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {  
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,8 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/new', [ProductController::class, 'newproduct'])->name('products.newproduct');
     Route::get('/products/{product}/loan', [ProductController::class, 'showLoanForm'])->name('products.loanForm');
     Route::post('/products/{product}/loan', [ProductController::class, 'productLoaned'])->name('products.loan');
-    Route::get('/dashboard', [PendingReturnController::class, 'showPendingReturns'])->name('dashboard');
-    Route::post('/dashboard', [PendingReturnController::class, 'setPending'])->name('dashboard.setPending');
+    Route::get('/products/overview', [PendingReturnController::class, 'showPendingReturns'])->name('products.overview');
+    Route::post('/products/{loanedProduct}/overview', [PendingReturnController::class, 'returningProduct'])->name('products.return');
     // Route::patch('/dashboard', [ProductController::class, 'productReturned'])->name('products.return');
 });
 
