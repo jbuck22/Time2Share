@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.product_post_grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#product_owner_text{
+    font-size: 22px;
+}
+
+#product_created_text{
+    font-weight: normal;
+}
+
+#product_category_text{
+    grid-row-start: 2;
+    font-size: 18px;
+    padding-top: 5px;
+}
+
+#product_description_text{
+    grid-row-start: 3;
+}
+
+#navbar{
+    background-color: rgb(250, 250, 250);
+    border-bottom: 1px solid rgb(186, 181, 181);
+}
+
+.py-12{
+    background-color: grey;
+}
+
+#product_post_box{
+    background-color: rgb(250, 250, 250);
+}
+
+#page_header{
+    background-color: rgb(250, 250, 250);
+}
