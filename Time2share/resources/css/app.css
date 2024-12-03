@@ -9,7 +9,8 @@
 }
 
 #product_owner_text{
-    font-size: 22px;
+    font-size: 25px;
+    border-bottom: 2px dashed grey;
 }
 
 #product_created_text{
@@ -17,13 +18,20 @@
 }
 
 #product_category_text{
+    grid-row-start: 3;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+}
+
+#product_name_text{
     grid-row-start: 2;
-    font-size: 18px;
-    padding-top: 5px;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 #product_description_text{
-    grid-row-start: 3;
+    grid-row-start: 4;
 }
 
 #navbar{
@@ -41,4 +49,23 @@
 
 #page_header{
     background-color: rgb(250, 250, 250);
+}
+
+#product_text_space{
+    max-width: 60%;
+}
+
+.loaned_icon{
+    max-height: 25px;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+#product_loaner_text{
+    font-size: 16px;
+}
+
+.p-6.flex.space-x-2{
+    flex-direction: column;
+    padding: 0;
 }
