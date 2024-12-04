@@ -26,6 +26,15 @@ class ProductController extends Controller
             ]);
     }
 
+    // public function showLoanedProducts(Request $request):View
+    // {
+    //     $loanedProducts = Product::where('owner_id', $request->user()->id)->where('loaned_out', 1)->get();
+
+    //     return view('products.overview',
+    //     [ 
+    //         'products' => $loanedProducts
+    //     ]);
+    // }
 
 
     public function productReturned(Request $request): RedirectResponse

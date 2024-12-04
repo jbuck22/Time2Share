@@ -6,6 +6,12 @@
     </x-slot>
 
     <div class="py-12">
+        <div>
+            <a href="{{ route('products.overview', ['filter' => 'loaned']) }}" class="btn btn-primary">Loaned Products</a>
+            <a href="{{ route('products.overview', ['filter' => 'loaning']) }}" class="btn btn-primary">Loaning Products</a>
+            <a href="{{ route('products.overview', ['filter' => 'returned']) }}" class="btn btn-primary">Returned Products</a>
+        </div>
+
         @foreach ($products as $product)
             <div id="product_text_space" class="max-w-7xl mx-auto sm:px-6 lg:px-8" style="margin-top: 25px">
                 <div id="product_text_box" class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" style="text-align: center">
@@ -25,23 +31,19 @@
                             <div class="flex-1">
                                 <div class="flex justify-between items-center">
                                     <div class="product_post_grid">
+                                        <span id="product_owner_text" class="text-gray-800 font-bold">{{ $product->owner->name }}
+                                            <small id="product_created_text" class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
+                                        </span>
+                                        <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}</p>
+                                            <small id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</small>
+                                        <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
                                         @if($product->owner_id == auth()->id() && in_array( $product->id, $pendingReturns))
-                                            <form method="POST" action="{{ route('products.accept', $product) }}"  class="flex-1 mb-2">
+                                            <form id="accept_return_form" method="POST" action="{{ route('products.accept', $product) }}"  class="flex-1 mb-2">
                                                 @csrf
                                                 @method('PATCH') 
-                                                <span id="product_owner_text" class="text-gray-800 font-bold">{{ $product->owner->name }}</span>
-                                                <small id="product_created_text" class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
-                                                <p id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</p>
-                                                <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
+                                                <p id="product_return_text" class="ml-2 text-sm text-gray-600" >{{ $product->loaner->name }} has requested to return this product </p>
                                                 <x-primary-button class="accept_return_button" type="submit">{{ __('Accept Return') }}</x-primary-button>
                                             </form>
-                                        @else
-                                            <span id="product_owner_text" class="text-gray-800 font-bold">{{ $product->owner->name }}
-                                                <small id="product_created_text" class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
-                                            </span>
-                                            <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}</p>
-                                                <small id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</small>
-                                            <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
                                         @endif
                                     </div>
                                 </div>

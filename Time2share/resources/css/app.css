@@ -17,6 +17,18 @@
     font-weight: normal;
 }
 
+#accept_return_form{
+    grid-row-start: 5;
+    grid-column-start: 2;
+}
+
+#product_return_text{
+    font-weight: normal;
+    font-size: 12px;
+    margin-top: 20px;
+    margin-left: 0;
+}
+
 #product_category_text{
     grid-row-start: 3;
     font-size: 12px;
