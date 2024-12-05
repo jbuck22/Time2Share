@@ -53,6 +53,7 @@
 
 .py-12{
     background-color: grey;
+    padding-top: 20px;
 }
 
 #product_post_box{
@@ -80,4 +81,22 @@
 .p-6.flex.space-x-2{
     flex-direction: column;
     padding: 0;
+}
+
+.btn.btn-primary{
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: 10px;
+    font-size: 20px;
+    padding-inline: 5px;
+    padding-block: 5px;
+    background-color: rgb(250, 250, 250);
+}
+
+.btn.btn-primary:hover{
+    background-color: rgb(190, 189, 189);
+}
+
+.filters{
+    text-align: center;
 }

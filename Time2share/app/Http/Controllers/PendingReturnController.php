@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\View\View;
+use Psy\Command\WhereamiCommand;
 
 class PendingReturnController extends Controller
 {
@@ -16,45 +17,51 @@ class PendingReturnController extends Controller
     {
         $userId = $request->user()->id;
         $filter = $request->input('filter'); // Ontvang de filteroptie uit de querystring
-    
-        // Basisquery voor producten van de gebruiker
-        $productsQuery = Product::with('owner', 'loaner')
-            ->where('owner_id', $userId);
-    
-        $loanedProductsQuery = Product::with('owner', 'loaner')
-            ->where('loaner_id', $userId);
-    
-            // Pending returns ophalen
-        $pendingReturns = PendingReturn::pluck('product')->toArray();
 
-        // Filter toepassen op basis van de geselecteerde optie
+        
+    
+        $products = collect();
+        $pendingReturns = PendingReturn::pluck('product')->toArray();  
+
         switch ($filter) {
             case 'loaned': // Uitgeleende producten
-                $productsQuery->where('loaned_out', 1);
+                $products = Product::with('owner', 'loaner')
+                    ->where('owner_id', $userId)
+                    ->where('loaned_out', 1)
+                    ->latest()
+                    ->get();
                 break;
     
             case 'loaning': // Lenende producten
-                $loanedProductsQuery->where('loaner_id', $userId);
+                $products = Product::with('owner', 'loaner')
+                    ->where('loaner_id', $userId)
+                    ->latest()
+                    ->get();
                 break;
     
-            case 'returned': // Producten die terug zijn
-                $productsQuery->in_array($productsQuery->id, $pendingReturns); // Voorbeeld: je hebt een `returned`-kolom
+            case 'pending_returns': // Producten die terug zijn
+                $products = Product::with('owner', 'loaner')
+                    ->where('owner_id', $userId)
+                    ->whereIn('id', $pendingReturns) // Bijv. een 'returned' kolom
+                    ->latest()
+                    ->get();
                 break;
     
-            default:
+            default: // Geen filter: toon alles
+                $products = Product::with('owner', 'loaner')
+                    ->where('owner_id', $userId)
+                    ->latest()
+                    ->get();
                 break;
         }
     
-        // Query’s uitvoeren
-        $products = $productsQuery->latest()->get();
-        $loanedProducts = $loanedProductsQuery->latest()->get();
-    
         return view('products.overview', [
             'products' => $products,
-            'loanedProducts' => $loanedProducts,
-            'pendingReturns' => $pendingReturns
+            'filter' => $filter, 
+            'pendingReturns' => $pendingReturns,
         ]);
     }
+
 
     public function returningProduct(Request $request, Product $loanedProduct): RedirectResponse
     {   
