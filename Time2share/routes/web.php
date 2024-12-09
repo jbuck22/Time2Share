@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product}/loan', [ProductController::class, 'showLoanForm'])->name('products.loanForm');
     Route::post('/products/{product}/loan', [ProductController::class, 'productLoaned'])->name('products.loan');
     Route::get('/products/overview', [PendingReturnController::class, 'showPendingReturns'])->name('products.overview');
-    Route::post('/products/{loanedProduct}/overview', [PendingReturnController::class, 'returningProduct'])->name('products.return');
+    Route::post('/products/{product}/overview', [PendingReturnController::class, 'returningProduct'])->name('products.return');
     Route::patch('/products/{product}/overview', [ProductController::class, 'productReturned'])->name('products.accept');
 
     // Route::get('/products/overview', [ProductController::class, 'showLoanedProducts'])->name('products.showLoanedProducts');
