@@ -52,11 +52,15 @@
                                                     </p>
                                                     <x-primary-button class="accept_return_button" type="submit">{{ __('Accept Return') }}</x-primary-button>
                                                 </form>
-                                            @elseif($filter === 'loaning' && $product->loaner_id == auth()->id())
+                                            @elseif($product->loaner_id == auth()->id() && !in_array($product->id, $pendingReturns)&& $filter === 'loaning')
                                                 <form method="POST" action="{{ route('products.return', $product) }}" class="flex-1 mb-2">
                                                     @csrf
                                                     <x-primary-button type="submit">{{ __('Return Product') }}</x-primary-button>
                                                 </form>
+                                            @elseif($product->loaner_id == auth()->id() && in_array($product->id, $pendingReturns)&& $filter === 'loaning')
+                                                <p>
+                                                    You have succesfully returned this product, waiting for confirmation from the owner. 
+                                                </p>    
                                             @endif
                                     </div>
                                 </div>

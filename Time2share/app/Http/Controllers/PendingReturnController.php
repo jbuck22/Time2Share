@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\View\View;
 use Psy\Command\WhereamiCommand;
+use Illuminate\Validation\ValidationException;
 
 class PendingReturnController extends Controller
 {
@@ -63,20 +64,23 @@ class PendingReturnController extends Controller
     }
 
 
-    public function returningProduct(Request $request, Product $loanedProduct): RedirectResponse
+    public function returningProduct(Request $request): RedirectResponse
     {   
 
-        $validated = $request->validate([
-            'owner_id' => 'required|integer',
-            'loaner_id' => 'nullable|integer'
-        ]);
+        $product = Product::where('id', $request->product)->first();
         
-        $validated['product'] = $loanedProduct->id;
-        $validated['owner_id'] = $loanedProduct->owner_id;
-        $validated['loaner_id'] = $loanedProduct->loaner_id;
+        $validated = $request->validate([
+            'owner_id' => 'sometimes|nullable|integer', 
+            'loaner_id' => 'sometimes|nullable|integer',
+        ]);
+
+        $validated['product'] = $product->id;
+        $validated['owner_id'] = $product->owner_id;
+        $validated['loaner_id'] = $product->loaner_id;
+
 
         PendingReturn::create($validated);
 
-        return redirect(route('products.index'));
+        return redirect()->back();
     }
 }
