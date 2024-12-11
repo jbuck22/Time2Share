@@ -3,6 +3,8 @@
 use App\Http\Controllers\PendingReturnController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,14 +30,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
     Route::get('/products/new', [ProductController::class, 'newproduct'])->name('products.newproduct');
     Route::get('/products/{product}/loan', [ProductController::class, 'showLoanForm'])->name('products.loanForm');
     Route::post('/products/{product}/loan', [ProductController::class, 'productLoaned'])->name('products.loan');
     Route::get('/products/overview', [PendingReturnController::class, 'showPendingReturns'])->name('products.overview');
     Route::post('/products/{product}/overview', [PendingReturnController::class, 'returningProduct'])->name('products.return');
     Route::patch('/products/{product}/overview', [ProductController::class, 'productReturned'])->name('products.accept');
-
-    // Route::get('/products/overview', [ProductController::class, 'showLoanedProducts'])->name('products.showLoanedProducts');
+    
+    Route::post('/products/{product}/block', [UserController::class, 'blockUser'])->name('user.block');
+    Route::post('/products/{product}/unblock', [UserController::class, 'unblockUser'])->name('user.unblock');
+    
+    Route::delete('products/{product}/delete', [ProductController::class, 'deleteProduct'])->name('product.delete');
 });
 
 Route::resource('products', ProductController::class)

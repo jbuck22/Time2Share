@@ -7,6 +7,7 @@ use App\Models\PendingReturn;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -79,5 +80,12 @@ class ProductController extends Controller
     public function newproduct(): View
     {
         return view('products.newproduct');
+    }
+
+    public function deleteProduct(Product $product): RedirectResponse
+    {
+        $product->delete();
+
+        return redirect()->back()->with('status', 'Product deleted succesfully');
     }
 }
