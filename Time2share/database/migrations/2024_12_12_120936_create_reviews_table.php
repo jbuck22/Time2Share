@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->integer('rating')->length(10)->nullable();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('reviewer_id');
             $table->unsignedBigInteger('reviewLoaner_id');
             $table->foreign('reviewer_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('reviewLoaner_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
-            $table->integer('rating')->length(10)->nullable();
             $table->timestamps();
         });
     }

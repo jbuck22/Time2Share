@@ -58,11 +58,19 @@
                                                     </p>
                                                     <x-primary-button class="accept_return_button" type="submit">{{ __('Accept Return') }}</x-primary-button>
                                                 </form>
+                                                
+                                                <a href="{{ route('profile.newReview', $product) }}"> 
+                                                <x-primary-button class="accept_return_button" type="submit">{{ __('Accept and Review') }}</x-primary-button></a>
+                                                {{-- <form id="accept_and_review_form" method="GET" action="{{ route('profile.newReview', $product) }}" class="flex-1 mb-2">
+                                                    @csrf
+                                                </form> --}}
+                                                
                                             @elseif($product->loaner_id == auth()->id() && !in_array($product->id, $pendingReturns)&& $filter === 'loaning')
                                                 <form method="POST" action="{{ route('products.return', $product) }}" class="flex-1 mb-2">
                                                     @csrf
                                                     <x-primary-button type="submit">{{ __('Return Product') }}</x-primary-button>
                                                 </form>
+
                                             @elseif($product->loaner_id == auth()->id() && in_array($product->id, $pendingReturns)&& $filter === 'loaning')
                                                 <p>
                                                     You have succesfully returned this product, waiting for confirmation from the owner. 

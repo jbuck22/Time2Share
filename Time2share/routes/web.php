@@ -3,6 +3,7 @@
 use App\Http\Controllers\PendingReturnController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
+    Route::get('/profile/{product}/newReview', [ReviewController::class, 'newReviewForm'])->name('profile.newReview');
+    Route::post('/profile/{product}/saveReview', [ReviewController::class, 'store'])->name('review.store');
+
     Route::get('/products/new', [ProductController::class, 'newproduct'])->name('products.newproduct');
     Route::get('/products/{product}/loan', [ProductController::class, 'showLoanForm'])->name('products.loanForm');
     Route::post('/products/{product}/loan', [ProductController::class, 'productLoaned'])->name('products.loan');
