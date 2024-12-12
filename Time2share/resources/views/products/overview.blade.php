@@ -25,7 +25,13 @@
                             @if ($product->loaner)
                                 <div class="loaned_icon">
                                     ➡️ 
-                                    <span id="product_loaner_text" class="text-gray-800 ml-4" >Loaned by: {{ $product->loaner->name }}</span>
+                                    <span id="product_loaner_text" class="text-gray-800 ml-4" >Loaned by: 
+                                        @if ($product->loaner_id === auth()->id())
+                                            You
+                                        @else
+                                            {{ $product->loaner->name }}
+                                        @endif
+                                    </span>
                                     <span id="product_created_text" class="ml-2 text-sm text-gray-600" >Deadline: {{ $product->deadline }}</span>
                                 </div>
                             @else

@@ -17,12 +17,13 @@
         <div id="product_text_space" class="max-w-7xl mx-auto sm:px-6 lg:px-8" style="margin-top: 25px">
             <div id="product_text_box" class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" style="text-align: center">
                 <div id="product_post_box" class="p-6 text-gray-900">
-                    <div class="p-6 flex space-x-2"> 
-                        @if ($product->loaner)
-                            <div class="loaned_icon">
-                                ➡️ 
-                                <span id="product_loaner_text" class="text-gray-800 ml-4" >Loaned by: {{ $product->loaner->name }}</span>
-                                <span id="product_created_text" class="ml-2 text-sm text-gray-600" >Deadline: {{ $product->deadline }}</span>
+                    <div class="p-6 flex space-x-2">
+                        @if($product->owner_id !== auth()->id())
+                            <div class="notloaned_icon" style="font-size: 22px">
+                                🏠
+                                <a href="{{ route('products.loanForm', $product->id) }}">
+                                    <x-primary-button class="mt-4">{{ __('Loan') }}</x-primary-button>
+                                </a>
                             </div>
                         @else
                             <div class="notloaned_icon" style="font-size: 22px">
