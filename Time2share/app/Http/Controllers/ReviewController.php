@@ -33,6 +33,92 @@ class ReviewController extends Controller
         
         Review::create($validated);
 
-        return redirect()->route('products.accept', $product);
+        $this->acceptProductReturn($product);
+
+        return redirect()->route('products.overview');
+    }
+
+    public function acceptProductReturn(Product $product)
+    {
+        
+        if($product->loaned_out){
+            $product->update([
+                'loaner_id' => null,
+                'loaned_out' => 0
+            ]);
+        }
+
+        $pendingReturn = PendingReturn::where('product', $product->id);
+        $pendingReturn->delete();
+    }
+
+    public function showReviews(Request $request): View
+    {
+        $userId = $request->user()->id;
+        $filter = $request->input('filter');
+        $sortRating = $request->input('sortRating');
+        $sortDate = $request->input('sortDate');
+
+        $reviews = collect(); 
+
+        switch ($filter) {
+            case 'sentReviews': // Uitgeleende producten
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->where('reviewer_id', $userId)
+                ->latest()
+                ->get();
+                break;
+    
+            case 'receivedReviews': // Lenende producten
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->where('reviewLoaner_id', $userId)
+                ->latest()
+                ->get();
+                break;
+   
+            default: // Geen filter: toon alles
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->where('reviewer_id', $userId)
+                ->latest()
+                ->get();
+                break;
+        }
+
+        switch ($sortRating){
+            case 'lowToHigh': // Lenende producten
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->orderByRaw('rating ASC')
+                ->get();
+                break;
+
+            case 'highToLow': // Lenende producten
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->orderByRaw('rating DESC')
+                ->get();
+                break;     
+        }
+
+        switch ($sortDate){
+            case 'oldFirst': // Lenende producten
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->orderByRaw('created_at ASC')
+                ->get();
+                break;
+
+            case 'newFirst': // Lenende producten
+                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+                ->orderByRaw('created_at DESC')
+                ->get();
+                break; 
+
+        }
+
+
+        return view('profile.reviews', [
+            'reviews' => $reviews,
+            'filter' => $filter,
+            'sortRating' => $sortRating,
+            'sortDate' => $sortDate
+        ]);
     }
 }

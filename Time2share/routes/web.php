@@ -28,9 +28,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/review', [ReviewController::class, 'showReviews'])->name('profile.reviews');
     
     Route::get('/profile/{product}/newReview', [ReviewController::class, 'newReviewForm'])->name('profile.newReview');
     Route::post('/profile/{product}/saveReview', [ReviewController::class, 'store'])->name('review.store');

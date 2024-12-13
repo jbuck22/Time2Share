@@ -46,7 +46,7 @@
                                             <small id="product_created_text" class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
                                         </span>
                                         <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}</p>
-                                            <small id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</small>
+                                        <small id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</small>
                                         <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
 
                                         @if($product->owner_id == auth()->id() && $filter === 'pending_returns' && in_array($product->id, $pendingReturns))
@@ -60,10 +60,8 @@
                                                 </form>
                                                 
                                                 <a href="{{ route('profile.newReview', $product) }}"> 
-                                                <x-primary-button class="accept_return_button" type="submit">{{ __('Accept and Review') }}</x-primary-button></a>
-                                                {{-- <form id="accept_and_review_form" method="GET" action="{{ route('profile.newReview', $product) }}" class="flex-1 mb-2">
-                                                    @csrf
-                                                </form> --}}
+                                                    <x-primary-button class="accept_return_button" type="submit">{{ __('Accept and Review') }}</x-primary-button>
+                                                </a>
                                                 
                                             @elseif($product->loaner_id == auth()->id() && !in_array($product->id, $pendingReturns)&& $filter === 'loaning')
                                                 <form method="POST" action="{{ route('products.return', $product) }}" class="flex-1 mb-2">
