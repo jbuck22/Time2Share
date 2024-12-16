@@ -42,7 +42,12 @@
                             <div class="flex-1">
                                 <div class="flex justify-between items-center">
                                     <div class="product_post_grid">
-                                        <span id="product_owner_text" class="text-gray-800 font-bold">{{ $product->owner->name }}
+                                        <span id="product_owner_text" class="text-gray-800 font-bold">    
+                                        @if ($product->owner_id === auth()->id())
+                                            You
+                                        @else
+                                            {{ $product->owner->name }}
+                                        @endif
                                             <small id="product_created_text" class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
                                         </span>
                                         <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}</p>

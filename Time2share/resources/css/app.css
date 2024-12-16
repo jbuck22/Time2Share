@@ -104,3 +104,7 @@ main{
 .filters{
     text-align: center;
 }
+
+.bg-gray-100{
+    background-color: grey;
+}

@@ -5,75 +5,100 @@
         </h2>
     </x-slot>
 
-    {{-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    @foreach ($products as $product)
-                <div class="p-6 flex space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    <div class="flex-1">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <span class="text-gray-800 font-bold">{{ $product->owner->name }}</span>
-                               
-                                @if($product->loaner)
-                               
-                                    <span class="text-gray-800 ml-4 ">Loaner: {{ $product->loaner->name }}</span>
-                                    <section class="flex flex-wrap space-x-2">
-                                        <form action="{{ route('dashboard.store', $product) }}" method="POST" class="flex-1 mb-2">
-                                            @csrf
-                                            <x-primary-button type="submit" class="w-full px-2 py-1 text-xs bg-green-800 hover:bg-green-600 focus:bg-green-600">Return</x-primary-button>
-                                        </form>
-                                    </section>
-                                @else
-                                @endif
-                                
-                                <small class="ml-2 text-sm text-gray-600">{{ $product->created_at->format('j M Y, g:i a') }}</small>
+    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
+        <form method="GET" action="{{ route('products.showDashboard') }}">
+            @csrf
+            <input
+                type="text"
+                name="search"
+                placeholder="{{ __('Search for a product...') }}"
+                class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                value="{{ request('search') }}"
+                />
+                <x-primary-button class="mt-4">{{ __('Search') }}</x-primary-button>
+        </form>
+    </div>
+    <div class="py-12">
+        @foreach ($products as $product)
+        @if (!$product->loaner)
+        <div id="product_text_space" class="max-w-7xl mx-auto sm:px-6 lg:px-8" style="margin-top: 25px">
+            <div id="product_text_box" class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" style="text-align: center">
+                <div id="product_post_box" class="p-6 text-gray-900">
+                    <div class="p-6 flex space-x-2">
+                        @if($product->owner_id !== auth()->id())
+                            <div class="notloaned_icon" style="font-size: 22px">
+                                🏠
+                                <a href="{{ route('products.loanForm', $product->id) }}">
+                                    <x-primary-button class="mt-4">{{ __('Loan') }}</x-primary-button>
+                                </a>
+                            </div>
+                        @else
+                            <div class="notloaned_icon" style="font-size: 22px">
+                                🏠
+                            </div>
+                        @endif
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <div class="product_post_grid">
+                                    <span id="product_owner_text" class="text-gray-800 font-bold">
+                                        {{ $product->owner->name }}
+                                        <small id="product_created_text" class="ml-2 text-sm text-gray-600">
+                                            {{ $product->created_at->format('j M Y, g:i a') }}
+                                        </small>
+                                        @if(Auth::user()->admin)
+                                            <x-dropdown align="right" width="48">
+                                                <x-slot name="trigger">
+                                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                                        <div>
+                                                            {{ Auth::user()->name }}
+                                                        </div>
+                
+                                                        <div class="ms-1">
+                                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                </x-slot>
+                
+                                                <x-slot name="content">
+                                                    <x-dropdown-link>
+                                                        @if ($product->owner->blocked)
+                                                        <form method="POST" action="{{ route('user.unblock', $product) }}" class="flex-1 mb-2">
+                                                            @csrf
+                                                            <x-primary-button type="submit">{{ __('Unblock user') }}</x-primary-button>
+                                                        </form>
+                                                        @else
+                                                        <form method="POST" action="{{ route('user.block', $product) }}" class="flex-1 mb-2">
+                                                            @csrf
+                                                            <x-primary-button type="submit">{{ __('Block user') }}</x-primary-button>
+                                                        </form>
+                                                        @endif
+                                                    </x-dropdown-link>
+                            
+                                                    <form method="POST" action="{{ route('product.delete', $product) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <x-primary-button type="submit">{{ __('Delete product') }}</x-primary-button>
+                                                    </form>
+                                                </x-slot>
+                                            </x-dropdown>
+                                        @endif
+                                    </span>
+                                    @if($product->image)
+                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded-lg shadow-md w-full h-auto">
+                                    @endif
+                                    <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}</p>
+                                        <small id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</small>
+                                    <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
+                                </div>
                             </div>
                         </div>
-                        <span class="text-gray-800">{{ $product->category }}</span>
-                        <p class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
                     </div>
-                </div>
-            @endforeach
-            @foreach ($loanedProducts as $loanedProduct)
-                <div class="p-6 flex space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    <div class="flex-1">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <span class="text-gray-800 font-bold">{{ $loanedProduct->loaner->name }}</span>
-                                
-                                @if($loanedProduct->loaner_id == auth()->id())
-                                
-                                    <span class="text-gray-800 ml-4 ">Owner: {{ $loanedProduct->owner->name }}</span>
-                                    <section class="flex flex-wrap space-x-2">
-                                        <form action="{{ route('dashboard.store', $loanedProduct) }}" method="POST" class="flex-1 mb-2">
-                                            @csrf
-                                            <x-primary-button type="submit" class="w-full px-2 py-1 text-xs bg-green-800 hover:bg-green-600 focus:bg-green-600">Return</x-primary-button>
-                                            <div class="mt-4">
-                                                <x-primary-button>{{ __('Return') }}</x-primary-button>
-                                            </div>
-                                        </form>
-                                    </section>
-                                @else
-                                @endif
-                                
-                                <small class="ml-2 text-sm text-gray-600">{{ $loanedProduct->created_at->format('j M Y, g:i a') }}</small>
-                            </div>
-                        </div>
-                        <span class="text-gray-800">{{ $loanedProduct->category }}</span>
-                        <p class="mt-4 text-lg text-gray-900">{{ $loanedProduct->description }}</p>
-                    </div>
-                </div>
-            @endforeach
                 </div>
             </div>
-        </div> --}}
+        </div>
+        @endif
+        @endforeach
     </div>
 </x-app-layout>

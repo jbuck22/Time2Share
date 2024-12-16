@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{product}/overview', [PendingReturnController::class, 'returningProduct'])->name('products.return');
     Route::patch('/products/{product}/overview', [ProductController::class, 'productReturned'])->name('products.accept');
     
+    Route::get('/dashboard', [ProductController::class, 'showDashboard'])->name('products.showDashboard');
+
     Route::post('/products/{product}/block', [UserController::class, 'blockUser'])->name('user.block');
     Route::post('/products/{product}/unblock', [UserController::class, 'unblockUser'])->name('user.unblock');
     

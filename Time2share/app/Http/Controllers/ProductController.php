@@ -12,16 +12,16 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index(Request $request): View
+    public function showDashboard(Request $request): View
     {
 
         $search = $request->input('search');
         $products = Product::with('owner', 'loaner')->where('loaned_out', 0)->when($search, function ($query, $search) 
             {
-                return $query->where('description', 'like', "%{$search}%")->orWhere('category', 'like', "%{$search}%");
+                return $query->where('description', 'like', "%{$search}%")->orWhere('category', 'like', "%{$search}%")->orWhere('name', 'like', "%{$search}%");
             })->latest()->get();
 
-            return view('products.index', 
+            return view('dashboard', 
             [
                 'products' => $products,
             ]);
@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product->loaner_id = $request->user()->id;
         $product->save();
         
-        return redirect()->route('products.index')->with('success', 'Product successfully loaned.');
+        return redirect()->route('dashboard')->with('success', 'Product successfully loaned.');
     }
 
     public function showLoanForm(Product $product): View
@@ -66,15 +66,22 @@ class ProductController extends Controller
             'description' => 'required|string',
             'category' => 'required|string|max:255',
             'deadline' => 'required|date',
+            'image' => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validated['image'] = $imagePath;
+        } else {
+            $validated['image'] = null;
+        }
     
         // Voeg de 'owner_id' handmatig toe aan de data array
         $validated['owner_id'] = $request->user()->id;
-    
         // Sla het product op met de extra 'owner_id'
         Product::create($validated);
     
-        return redirect(route('products.index'))->with('success', 'product succesvol aangemaakt');
+        return redirect(route('products.showDashboard'))->with('success', 'product succesvol aangemaakt');
     }  
 
     public function newproduct(): View

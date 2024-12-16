@@ -25,6 +25,7 @@ class Product extends Model
         'deadline',
         'owner_id',
         'loaner_id',
+        'image',
         'loaned_out',
     ];
 

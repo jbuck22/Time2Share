@@ -26,13 +26,26 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user(); // Haal de huidige gebruiker op
+        
+        $user->fill($request->validated()); // Vul de gevalideerde velden in
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        if ($user->isDirty('email')) 
+            {
+                $user->email_verified_at = null;
+            }
 
-        $request->user()->save();
+        if ($request->hasFile('pfp')) 
+            {
+                // Sla de afbeelding op in de storage-map 'public/pfps'
+                $pfpPath = $request->file('pfp')->store('pfps', 'public');
+
+                // Werk het pfp-pad bij op de gebruiker
+                $user->pfp = $pfpPath;
+            }
+
+        // Sla de wijzigingen in de gebruiker op
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
