@@ -1,3 +1,22 @@
+@if (Auth::user()->blocked)
+    <x-guest-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Blocked') }}
+            </h2>
+        </x-slot>
+
+        You have been blocked. Please reach out to an admin to resolve this issue. 
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <x-primary-button :href="route('logout')"
+                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                {{ __('Log Out') }}
+            </x-primary-button>
+        </form>
+    </x-guest-layout>
+@else
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -26,20 +45,31 @@
                 <div id="product_post_box" class="p-6 text-gray-900">
                     <div class="p-6 flex space-x-2">
                         @if($product->owner_id !== auth()->id())
-                            <div class="notloaned_icon" style="font-size: 22px">
+                            {{-- <div class="notloaned_icon" style="font-size: 22px">
                                 🏠
-                                <a href="{{ route('products.loanForm', $product->id) }}">
-                                    <x-primary-button class="mt-4">{{ __('Loan') }}</x-primary-button>
-                                </a>
-                            </div>
+                                
+                            </div> --}}
                         @else
-                            <div class="notloaned_icon" style="font-size: 22px">
+                            {{-- <div class="notloaned_icon" style="font-size: 22px">
                                 🏠
-                            </div>
+                            </div> --}}
                         @endif
                         <div class="flex-1">
                             <div class="flex justify-between items-center">
                                 <div class="product_post_grid">
+                                    @if($product->owner->pfp)
+                                        <img 
+                                            src="{{ asset('storage/' . $product->owner->pfp) }}" 
+                                            alt="{{ Auth::user()->name }}" 
+                                            class="w-8 h-8 rounded-full object-cover mr-2"
+                                        >
+                                    @else
+                                        <img
+                                            src="{{ asset('storage/pfps/default_pfp.jpg') }}"
+                                            class="w-8 h-8 rounded-full object-cover mr-2"
+                                            style="width: 30px; height: 30px; float:left"
+                                        >
+                                    @endif
                                     <span id="product_owner_text" class="text-gray-800 font-bold">
                                         {{ $product->owner->name }}
                                         <small id="product_created_text" class="ml-2 text-sm text-gray-600">
@@ -86,11 +116,16 @@
                                         @endif
                                     </span>
                                     @if($product->image)
-                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded-lg shadow-md w-full h-auto">
+                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded-lg shadow-md w-full h-auto" id="product_image">
                                     @endif
-                                    <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}</p>
+
+                                    <p id="product_name_text" class="text-gray-800 font-bold">{{ $product->name}}
                                         <small id="product_category_text" class="text-gray-800 font-bold">{{ $product->category }}</small>
+                                    </p>
                                     <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $product->description }}</p>
+                                    <a id="product_loan_button" href="{{ route('products.loanForm', $product->id) }}">
+                                        <x-primary-button class="mt-4">{{ __('Loan') }}</x-primary-button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -102,3 +137,4 @@
         @endforeach
     </div>
 </x-app-layout>
+@endif

@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\PendingReturnController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\UserController;
-
+use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ProductController;
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PendingReturnController;
 
 /*
 |--------------------------------------------------------------------------
