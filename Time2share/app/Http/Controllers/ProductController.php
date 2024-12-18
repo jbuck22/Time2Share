@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product->loaner_id = $request->user()->id;
         $product->save();
         
-        return redirect()->route('dashboard')->with('success', 'Product successfully loaned.');
+        return redirect()->route('products.showDashboard')->with('success', 'Product successfully loaned.');
     }
 
     public function showLoanForm(Product $product): View
@@ -81,7 +81,7 @@ class ProductController extends Controller
         // Sla het product op met de extra 'owner_id'
         Product::create($validated);
     
-        return redirect(route('products.showDashboard'))->with('success', 'product succesvol aangemaakt');
+        return redirect()->route('products.showDashboard')->with('success', 'product succesvol aangemaakt');
     }  
 
     public function newproduct(): View

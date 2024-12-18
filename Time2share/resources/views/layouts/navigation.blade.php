@@ -15,9 +15,6 @@
                     <x-nav-link :href="route('products.showDashboard')" :active="request()->routeIs('products.showDashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                        {{ __('Products') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('products.newproduct')" :active="request()->routeIs('products.newproduct')">
                         {{ __('New Product') }}
                     </x-nav-link>
@@ -96,9 +93,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('products.showDashboard')" :active="request()->routeIs('products.showDashboard')">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                {{ __('Products') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('products.newproduct')" :active="request()->routeIs('products.newproduct')">
                 {{ __('New Product') }}
