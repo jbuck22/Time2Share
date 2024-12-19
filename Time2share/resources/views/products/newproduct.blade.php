@@ -4,10 +4,12 @@
             {{ __('New product') }}
         </h2>
     </x-slot>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg" style="margin-top: 2rem; width:60%; margin-left:auto; margin-right:auto">
+            <div class="max-w-xl">
         <h2 class="font-semibold text-xl text-black-800 leading-tight mb-6">Nieuw Product Aanmaken</h2>
 
-        <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('products.store') }}"  enctype="multipart/form-data">
             @csrf
             <!-- Naam van het product -->
             <div class="mb-4">
@@ -18,7 +20,7 @@
                     id="name" 
                     value="{{ old('name') }}" 
                     required 
-                    class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm "
                 >
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
@@ -27,11 +29,12 @@
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-medium">Omschrijving</label>
                 <textarea 
+                    maxlength="255"
                     name="description" 
                     id="description" 
                     rows="4" 
                     required 
-                    class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm "
                 >{{ old('description') }}</textarea>
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
             </div>
@@ -80,5 +83,7 @@
                 <x-primary-button id="primaryButton">{{ __('Product Aanmaken') }}</x-primary-button>
             </div>
         </form>
+            </div>
+        </div>
     </div>
 </x-app-layout>

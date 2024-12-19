@@ -48,14 +48,25 @@ class PendingReturnController extends Controller
                     ->get();
                 break;
     
+            case 'my_products':
+                $products = Product::with('owner', 'loaner')
+                    ->where('owner_id', $userId)
+                    ->orWhere('loaner_id', $userId)
+                    ->latest()
+                    ->get();
+                break;
+
             default: // Geen filter: toon alles
                 $products = Product::with('owner', 'loaner')
                     ->where('owner_id', $userId)
+                    ->where('loaner_id', $userId)
                     ->latest()
                     ->get();
                 break;
         }
     
+        // dd($products, $pendingReturns, $filter);
+
         return view('products.overview', [
             'products' => $products,
             'filter' => $filter, 

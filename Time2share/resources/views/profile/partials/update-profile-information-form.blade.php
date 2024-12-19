@@ -24,18 +24,25 @@
         </div>
 
         <div>
-            @if($user->pfp)
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">{{ __('Current Profile Picture') }}</label>
+            <x-input-label class="block text-gray-700 font-medium" for="pfp" :value="__('Profile picture')"/>
+            <div class="mb-4" style="display:flex; align-items:center">
+                <x-text-input type="file" name="pfp" id="pfp" :value="old('pfp', $user->pfp)" class="cursor-pointer inline-flex items-center px-4 py-3 border border-grey-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "/>
+                @if($user->pfp)
                 <img 
                     src="{{ asset('storage/' . $user->pfp) }}" 
-                    alt="{{ $user->name }}" 
-                    class="rounded-full w-24 h-24 object-cover mt-2"
+                    alt="{{ $user->name }}"
+                    style="width:70px; height:70px" 
+                    class="rounded-full object-cover"
                 >
+                @else
+                <img
+                    src="{{ asset('storage/pfps/default_pfp.jpg') }}"
+                    alt="{{ $user->name }}"
+                    style="width:70px; height:70px" 
+                    class="rounded-full object-cover"
+                >    
             </div>
             @endif
-            <x-input-label for="pfp" :value="__('pfp')"/>
-            <x-text-input type="file" name="pfp" id="pfp" :value="old('pfp', $user->pfp)" class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"/>
         </div>
 
         <div>

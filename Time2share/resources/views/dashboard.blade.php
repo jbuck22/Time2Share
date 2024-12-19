@@ -197,23 +197,27 @@
                             >
                         @endif
                         {{-- Naam en Datum --}}
-                        <div>
-                            <span class="owner_name">{{ $product->owner->name }}</span>
-                            <span class="created_date">{{ $product->created_at->format('j M Y, g:i a') }}</span>
-                        </div>
-                        <div class="product_actions">
-                            <a href="{{ route('products.loanForm', $product->id) }}">
-                                <button>{{ __('Loan') }}</button>
-                            </a>
-                        </div>
-                        
+                        @if (Auth::user()->id === $product->owner->id)
+                            <div>
+                                    <span class="owner_name">{{ "You" }}</span>
+                                    <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                            </div>
+                        @else
+                            <div>
+                                <span class="owner_name">{{ $product->owner->name }}</span>
+                                <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                            </div>
+                            <div class="product_actions">
+                                <a href="{{ route('products.loanForm', $product->id) }}">
+                                    <button>{{ __('Loan') }}</button>
+                                </a>
+                            </div>
+                        @endif
                     </div>
     
                     {{-- Content: Product Naam & Beschrijving --}}
                     <div class="product_content">
-                        <p class="product_name">{{ $product->name }}
-                          
-                        </p>
+                        <p class="product_name">{{ $product->name }}</p>
                         <p class="product_description">{{ $product->description }}</p>
                     </div>
     
@@ -225,13 +229,6 @@
                             class="product_image"
                         >
                     @endif
-    
-                    {{-- Acties (bijv. Loan Button) --}}
-                    {{-- <div class="product_actions">
-                        <a href="{{ route('products.loanForm', $product->id) }}">
-                            <button>{{ __('Loan') }}</button>
-                        </a>
-                    </div> --}}
                 </div>
             @endif
         @endforeach
