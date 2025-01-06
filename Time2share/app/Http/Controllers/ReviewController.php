@@ -59,61 +59,94 @@ class ReviewController extends Controller
         $sortRating = $request->input('sortRating');
         $sortDate = $request->input('sortDate');
 
-        $reviews = collect(); 
+        // $reviews = collect(); 
 
-        switch ($filter) {
-            case 'sentReviews': // Uitgeleende producten
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->where('reviewer_id', $userId)
-                ->latest()
-                ->get();
-                break;
+        $query = Review::with('reviewer', 'reviewloaner', 'product');
+
+        // switch ($filter) {
+        //     case 'sentReviews': // Uitgeleende producten
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->where('reviewer_id', $userId)
+        //         ->latest()
+        //         ->get();
+        //         break;
     
-            case 'receivedReviews': // Lenende producten
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->where('reviewLoaner_id', $userId)
-                ->latest()
-                ->get();
-                break;
+        //     case 'receivedReviews': // Lenende producten
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->where('reviewLoaner_id', $userId)
+        //         ->latest()
+        //         ->get();
+        //         break;
    
-            default: // Geen filter: toon alles
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->where('reviewer_id', $userId)
-                ->latest()
-                ->get();
-                break;
+        //     default: // Geen filter: toon alles
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->where('reviewer_id', $userId)
+        //         ->latest()
+        //         ->get();
+        //         break;
+        // }
+
+        // switch ($sortRating){
+        //     case 'lowToHigh': // Lenende producten
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->orderByRaw('rating ASC')
+        //         ->get();
+        //         break;
+
+        //     case 'highToLow': // Lenende producten
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->orderByRaw('rating DESC')
+        //         ->get();
+        //         break;     
+        // }
+
+        // switch ($sortDate){
+        //     case 'oldFirst': // Lenende producten
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->orderByRaw('created_at ASC')
+        //         ->get();
+        //         break;
+
+        //     case 'newFirst': // Lenende producten
+        //         $reviews = Review::with('reviewer', 'reviewloaner', 'product')
+        //         ->orderByRaw('created_at DESC')
+        //         ->get();
+        //         break; 
+
+        // }
+
+
+        // return view('profile.reviews', [
+        //     'reviews' => $reviews,
+        //     'filter' => $filter,
+        //     'sortRating' => $sortRating,
+        //     'sortDate' => $sortDate
+        // ]);
+
+        if ($filter === 'sentReviews') {
+            $query->where('reviewer_id', $userId);
+        } elseif ($filter === 'receivedReviews') {
+            $query->where('reviewLoaner_id', $userId);
+        } else {
+            $query->where('reviewer_id', $userId); // Toon standaard 'sentReviews'
         }
-
-        switch ($sortRating){
-            case 'lowToHigh': // Lenende producten
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->orderByRaw('rating ASC')
-                ->get();
-                break;
-
-            case 'highToLow': // Lenende producten
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->orderByRaw('rating DESC')
-                ->get();
-                break;     
+    
+        // Pas de sorteervolgorde toe
+        if ($sortRating === 'lowToHigh') {
+            $query->orderBy('rating', 'asc');
+        } elseif ($sortRating === 'highToLow') {
+            $query->orderBy('rating', 'desc');
         }
-
-        switch ($sortDate){
-            case 'oldFirst': // Lenende producten
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->orderByRaw('created_at ASC')
-                ->get();
-                break;
-
-            case 'newFirst': // Lenende producten
-                $reviews = Review::with('reviewer', 'reviewloaner', 'product')
-                ->orderByRaw('created_at DESC')
-                ->get();
-                break; 
-
+    
+        if ($sortDate === 'oldFirst') {
+            $query->orderBy('created_at', 'asc');
+        } elseif ($sortDate === 'newFirst') {
+            $query->orderBy('created_at', 'desc');
         }
-
-
+    
+        // Voer de query uit
+        $reviews = $query->get();
+    
         return view('profile.reviews', [
             'reviews' => $reviews,
             'filter' => $filter,

@@ -7,10 +7,10 @@
 
     <div class="py-12">
         <div class="filters">
-            <a href="{{ route('products.overview', ['filter' => 'loaned']) }}" class="btn btn-primary">Loaned Products</a>
-            <a href="{{ route('products.overview', ['filter' => 'loaning']) }}" class="btn btn-primary">Loaning Products</a>
-            <a href="{{ route('products.overview', ['filter' => 'pending_returns']) }}" class="btn btn-primary">Returned Products</a>
-            <a href="{{ route('products.overview', ['filter' => 'my_products']) }}" class="btn btn-primary">My Products</a>
+            <a id="primaryButton" href="{{ route('products.overview', ['filter' => 'loaned']) }}" class="btn btn-primary">Loaned Products</a>
+            <a id="primaryButton" href="{{ route('products.overview', ['filter' => 'loaning']) }}" class="btn btn-primary">Loaning Products</a>
+            <a id="primaryButton" href="{{ route('products.overview', ['filter' => 'pending_returns']) }}" class="btn btn-primary">Returned Products</a>
+            <a id="primaryButton" href="{{ route('products.overview', ['filter' => 'my_products']) }}" class="btn btn-primary">My Products</a>
         </div>
 
         @if($products->isEmpty())

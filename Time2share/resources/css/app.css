@@ -242,6 +242,13 @@ main{
     text-align: center;
 }
 
+.filters > a{
+    border: 2px solid white;
+    margin: 10px;
+    font-size: larger;
+    border-radius: 5px;
+}
+
 .bg-gray-100{
     background-color: rgb(74, 80, 133);
 }

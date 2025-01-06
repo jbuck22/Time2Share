@@ -8,12 +8,12 @@
     <div class="py-12">
 
         <div class="filters">
-            <a href="{{ route('profile.reviews', ['filter' => 'sentReviews']) }}" class="btn btn-primary">Sent reviews</a>
-            <a href="{{ route('profile.reviews', ['filter' => 'receivedReviews']) }}" class="btn btn-primary">Received reviews</a>
-            <a href="{{ route('profile.reviews', ['sortRating' => 'lowToHigh']) }}" class="btn btn-primary">Rating: lowest first</a>
-            <a href="{{ route('profile.reviews', ['sortRating' => 'highToLow']) }}" class="btn btn-primary">Rating: highest first</a>
-            <a href="{{ route('profile.reviews', ['sortDate' => 'oldFirst']) }}" class="btn btn-primary">Oldest first</a>
-            <a href="{{ route('profile.reviews', ['sortDate' => 'newFirst']) }}" class="btn btn-primary">Newest first</a>
+            <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'sentReviews'])) }}" class="btn btn-primary">Sent reviews</a>
+            <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'receivedReviews'])) }}" class="btn btn-primary">Received reviews</a>
+            <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'highToLow'])) }}" class="btn btn-primary">Rating: highest first</a>
+            <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'lowToHigh'])) }}" class="btn btn-primary">Rating: lowest first</a>
+            <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'oldFirst'])) }}" class="btn btn-primary">Oldest first</a>
+            <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'newFirst'])) }}" class="btn btn-primary">Newest first</a>
         </div>
 
         @foreach ($reviews as $review)
