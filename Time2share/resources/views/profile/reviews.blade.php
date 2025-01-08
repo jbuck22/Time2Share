@@ -8,12 +8,31 @@
     <div class="py-12">
 
         <div class="filters">
-            <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'sentReviews'])) }}" class="btn btn-primary">Sent reviews</a>
-            <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'receivedReviews'])) }}" class="btn btn-primary">Received reviews</a>
-            <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'highToLow'])) }}" class="btn btn-primary">Rating: highest first</a>
-            <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'lowToHigh'])) }}" class="btn btn-primary">Rating: lowest first</a>
-            <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'oldFirst'])) }}" class="btn btn-primary">Oldest first</a>
-            <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'newFirst'])) }}" class="btn btn-primary">Newest first</a>
+            <div class="filters_buttons">
+                <small class="sortby_title"> Filter by:</small>
+                <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'sentReviews'])) }}" class="btn btn-primary">
+                    <x-primary-button id="primaryButton" class="mt-4"> {{__('Sent reviews')}} </x-primary-button>
+                </a>
+                <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'receivedReviews'])) }}" class="btn btn-primary"> 
+                    <x-primary-button id="primaryButton" class="mt-4"> {{__('Received reviews')}} </x-primary-button>
+                </a>
+                <br>    
+            </div>
+            <div class="sortby_buttons"> 
+                <small class="sortby_title"> Sort by:</small>
+                <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'highToLow'])) }}" class="btn btn-primary">
+                     <x-primary-button id="primaryButton" class="mt-4"> {{__('Rating: highest')}} </x-primary-button>
+                </a>
+                <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'lowToHigh'])) }}" class="btn btn-primary">
+                     <x-primary-button id="primaryButton" class="mt-4"> {{__('Rating: lowest')}} </x-primary-button>
+                </a>
+                <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'oldFirst'])) }}" class="btn btn-primary">
+                    <x-primary-button id="primaryButton" class="mt-4"> {{__('Date: Oldest ')}} </x-primary-button>
+                </a>
+                <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'newFirst'])) }}" class="btn btn-primary">
+                    <x-primary-button id="primaryButton" class="mt-4"> {{__('Date: Newest')}} </x-primary-button>
+                </a>
+            </div>
         </div>
 
         @foreach ($reviews as $review)

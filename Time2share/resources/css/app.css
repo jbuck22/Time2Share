@@ -1,133 +1,3 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-.product_post_grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-#product_owner_text{
-    font-size: 25px;
-    border-bottom: 2px dashed grey;
-    grid-column-start: 1;
-    grid-row-start: 1;
-    margin: auto;
-}
-
-#product_created_text{
-    font-weight: normal;
-}
-
-#user_pfp{
-    grid-column-start: 1;
-    grid-row-start: 1;
-}
-
-#product_image{
-    grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 3;
-    width: 200px;
-    height: 100px;
-}
-
-#product_loan_button {
-    grid-column-start: 3;
-}
-#product_loan_button > button{
-    float: right;
-}
-
-#accept_return_form{
-    grid-row-start: 5;
-    grid-column-start: 2;
-}
-
-#product_return_text{
-    font-weight: normal;
-    font-size: 12px;
-    margin-top: 20px;
-    margin-left: 0;
-}
-
-#product_name_text{
-    grid-column-start: 2;
-    grid-row-start: 1;
-    font-size: 20px;
-    margin-top: 10px
-}
-
-#product_category_text{
-    grid-column-start: 2;
-    grid-row-start: 1;
-    font-size: 12px;
-    font-weight: normal;
-    font-style: italic;
-}
-
-#product_description_text{
-    grid-row-start: 2;
-    grid-column-start: 2;
-    margin: auto;
-}
-
-#navbar{
-    background-color: rgb(250, 250, 250);
-    border-bottom: 1px solid rgb(186, 181, 181);
-}
-
-.py-12{
-    background-color: grey;
-    padding-top: 20px;
-}
-
-main{
-    background-color: grey;
-}
-
-#product_post_box{
-    background-color: rgb(250, 250, 250);
-}   
-
-#page_header{
-    background-color: rgb(250, 250, 250);
-}
-
-#product_text_space{
-    max-width: 60%;
-}
-
-.loaned_icon{
-    max-height: 25px;
-    font-size: 20px;
-    margin-bottom: 15px;
-}
-
-#product_loaner_text{
-    font-size: 16px;
-}
-
-.p-6.flex.space-x-2{
-    flex-direction: column;
-    padding: 0;
-}
-
-.btn.btn-primary{
-    border-radius: 5px;
-    border: 1px solid black;
-    margin: 10px;
-    font-size: 20px;
-    padding-inline: 5px;
-    padding-block: 5px;
-    background-color: rgb(250, 250, 250);
-}
-
-.btn.btn-primary:hover{
-    background-color: rgb(190, 189, 189);
-} */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -223,7 +93,7 @@ main{
 }
 
 .product_actions button:hover {
-    background-color: #4727ff;
+    background-color: rgb(1, 1, 70);
 }
 
 #admin_dropdown{
@@ -235,18 +105,49 @@ main{
 
 #primaryButton{
     background-color: rgb(40, 0, 150);
-    border: 1px solid white;
+    outline: 2px solid white;
+    margin: 2px;
+}
+
+#primaryButton:hover{
+    background-color: rgb(1, 1, 70);
 }
 
 .filters{
     text-align: center;
+    margin:auto;
 }
 
-.filters > a{
-    border: 2px solid white;
-    margin: 10px;
-    font-size: larger;
-    border-radius: 5px;
+.filters_buttons{
+    padding-bottom: 10px;
+}
+
+.filters_buttons #primaryButton{
+    width: 240px;
+    height: 50px;
+    font-size: 18px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-inline: 1rem;
+}
+
+.sortby_buttons #primaryButton{
+    width: 155px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.sortby_buttons #primaryButton{
+    margin-inline: 0.5rem;
+    margin-block: 1rem;
+}
+
+.sortby_title{
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
 }
 
 .bg-gray-100{
