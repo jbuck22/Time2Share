@@ -20,8 +20,8 @@
                 <a href="/">
                     {{-- <x-application-logo class="w-20 h-20 fill-current text-black-500" /> --}}
                     <img
-                    src="{{ asset('storage/pfps/time2share_logo.png') }}"
-                    class="w-24 h-24 fill-current"
+                    src="{{ asset('storage/pfps/time2share_logo_fixed.png') }}"
+                    class="block h-20 w-auto fill-current"
                     >
                 </a>
             </div>

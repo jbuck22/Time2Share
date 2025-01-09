@@ -7,6 +7,7 @@
 
     <div class="py-12">
         <div class="filters">
+            <small class="sortby_title"> Filter by:</small>
             <a href="{{ route('products.overview', ['filter' => 'loaned']) }}" class="btn btn-primary">`
                 <x-primary-button id="primaryButton" class="mt-4"> {{__('Loaned Products')}} </x-primary-button>
             </a>

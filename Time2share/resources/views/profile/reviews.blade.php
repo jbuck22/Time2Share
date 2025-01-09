@@ -36,43 +36,38 @@
         </div>
 
         @foreach ($reviews as $review)
-        <div id="product_text_space" class="max-w-7xl mx-auto sm:px-6 lg:px-8" style="margin-top: 25px">
-            <div id="product_text_box" class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" style="text-align: center">
-                <div id="product_post_box" class="p-6 text-gray-900">
-                    <div class="p-6 flex space-x-2"> 
-                        <div class="flex-1">
-                            <div class="flex justify-between items-center">
-                                <div class="product_post_grid">
-                        {{-- <p>{{ $review->reviewer->name }}</p> --}}
-
-                        <span id="product_owner_text" class="text-gray-800 font-bold">
-                            
-                            @if ($review->reviewer_id === auth()->id())
-                                You
-                            @else
-                                {{ $review->reviewer->name }}
-                            @endif
-                            <small id="product_created_text" class="ml-2 text-sm text-gray-600">
-                                To: 
-                                @if ($review->reviewLoaner_id === auth()-> id())
-                                    You
-                                @else    
-                                    {{ $review->reviewloaner->name }}
-                                @endif
-                            </small>
-                        </span>
-                        <p id="product_name_text" class="text-gray-800 font-bold">{{ $review->product->name }}</p>
-                        {{-- <p>{{ $review->product->name }}</p> --}}
-                        <small id="product_category_text" class="text-gray-800 font-bold">{{ $review->title }}</small>
-                        <p id="product_description_text" class="mt-4 text-lg text-gray-900">{{ $review->description }}</p>
-                        <p>{{ $review->rating }}</p>
-                        {{-- <p>{{ $review->title }}</p>
-                        <p>{{ $review->description }}</p> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="product_box">
+            <div class="product_header">
+                @if($review->reviewer->pfp)
+                <img 
+                    src="{{ asset('storage/' . $review->reviewer->pfp) }}" 
+                    alt="{{ $review->reviewer->name }}"
+                >
+                @else
+                    <img 
+                        src="{{ asset('storage/pfps/default_pfp.jpg') }}"
+                        alt="Default Profile Picture"
+                    >
+                @endif
+                @if ($review->reviewer_id === auth()->id())
+                <div>
+                    <span class="owner_name">{{ "You" }}</span>
+                    <span class="review_loan_text"> {{ "To:" }} {{ $review->reviewloaner->name }} {{ "- For the product:" }} {{ $review->product->name }}</span>
                 </div>
+                <div class="product_actions">
+                    <span class="owner_name">{{ $review->rating }} {{"/ 10"}}</span>
+                </div>
+                @else
+                <div>
+                    <span class="owner_name">{{ $review->reviewer->name }}</span>
+                    <span class="review_loan_text"> {{ "To:" }} {{ "You" }} {{ "- For the product:" }} {{ $review->product->name }}</span>
+                </div>
+                @endif
+            </div>
+
+            <div class="product_content">
+                <p class="product_name">{{ $review->title }}</p>
+                <p class="product_description">{{ $review->description }}</p>
             </div>
         </div>
         @endforeach

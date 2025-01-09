@@ -16,7 +16,9 @@ class ReviewController extends Controller
 {
     public function newReviewForm(Product $product): View
     {
-        return view('profile.newReview', ['product' => $product]);
+        $pendingReturn = PendingReturn::where('product', $product->id)->first();
+
+        return view('profile.newReview', ['product' => $product, 'pendingReturn' => $pendingReturn]);
     }
 
     public function store(Product $product, Request $request): RedirectResponse

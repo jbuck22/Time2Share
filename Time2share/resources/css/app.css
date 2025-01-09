@@ -101,6 +101,13 @@
     grid-column-start: 1;
     margin-left: auto;
     margin-right: 7rem;
+    outline: 2px solid rgb(40, 0, 150);
+    border-radius: 5px;
+}
+
+.admin_content #primaryButton{
+    justify-content: space-between;
+    width: fit-content;
 }
 
 #primaryButton{
@@ -116,6 +123,7 @@
 .filters{
     text-align: center;
     margin:auto;
+    margin-bottom: 5rem;
 }
 
 .filters_buttons{
@@ -158,4 +166,10 @@
     color: black;
     font-weight: bold;
     font-size: large;
+}
+
+.product_header .review_loan_text {
+    font-size: 1rem;
+    color: black;
+    margin-left: 0.5rem;
 }

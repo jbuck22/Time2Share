@@ -1,8 +1,11 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('New review for') }} {{ $product->loaner->name }} {{ __('and their loanspell of ') }} {{ $product->name }}
+        </h2>
+    </x-slot>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-6">Reviewing {{ $product->loaner->name }}</h2>
-
-        <form method="POST" action="{{ route('review.store', $product) }}">
+        <form method="POST" action="{{ route('review.store', $product) }}" style="margin-bottom: 5rem">
             @csrf
 
             <div class="mb-4">
@@ -44,8 +47,33 @@
             </div>
 
             <div class="flex justify-end">
-                <x-primary-button>{{ __('Post review') }}</x-primary-button>
+                <x-primary-button id="primaryButton">{{ __('Post review') }}</x-primary-button>
             </div>
         </form>
+
+        <div class="product_box">
+            <div class="product_header">
+                @if($product->loaner->pfp)
+                    <img 
+                        src="{{ asset('storage/' . $product->loaner->pfp) }}" 
+                        alt="{{ $product->loaner->name }}"
+                    >
+                @else
+                    <img 
+                        src="{{ asset('storage/pfps/default_pfp.jpg') }}"
+                        alt="Default Profile Picture"
+                    >
+                @endif
+                    <div>
+                        <span class="owner_name">{{ $product->loaner->name }}</span>
+                        <span class="created_date">{{ "Returned this product on" }} {{ $pendingReturn->created_at->format('j M Y, g:i a') }}</span>
+                    </div>
+            </div>
+
+            <div class="product_content">
+                <p class="product_name">{{ $product->name }}</p>
+                <p class="product_description">{{ $product->description }}</p>
+            </div>
+        </div>
     </div>
 </x-app-layout>
