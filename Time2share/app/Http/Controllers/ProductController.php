@@ -38,9 +38,7 @@ class ProductController extends Controller
 
         $pendingReturn = PendingReturn::where('product', $product->id);
         $pendingReturn->delete();
-        // $product->loaned_out = 0;
-        // $product->loaner_id = null;
-        // $product->save();
+        
         return redirect()->back();
     }
 
@@ -76,9 +74,9 @@ class ProductController extends Controller
             $validated['image'] = null;
         }
     
-        // Voeg de 'owner_id' handmatig toe aan de data array
+
         $validated['owner_id'] = $request->user()->id;
-        // Sla het product op met de extra 'owner_id'
+     
         Product::create($validated);
     
         return redirect()->route('products.showDashboard')->with('success', 'product succesvol aangemaakt');

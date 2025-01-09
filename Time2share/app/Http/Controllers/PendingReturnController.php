@@ -17,7 +17,7 @@ class PendingReturnController extends Controller
     public function showPendingReturns(Request $request): View
     {
         $userId = $request->user()->id;
-        $filter = $request->input('filter'); // Ontvang de filteroptie uit de querystring
+        $filter = $request->input('filter'); 
 
         
     
@@ -25,7 +25,7 @@ class PendingReturnController extends Controller
         $pendingReturns = PendingReturn::pluck('product')->toArray();  
 
         switch ($filter) {
-            case 'loaned': // Uitgeleende producten
+            case 'loaned':
                 $products = Product::with('owner', 'loaner')
                     ->where('owner_id', $userId)
                     ->where('loaned_out', 1)
@@ -33,17 +33,17 @@ class PendingReturnController extends Controller
                     ->get();
                 break;
     
-            case 'loaning': // Lenende producten
+            case 'loaning':
                 $products = Product::with('owner', 'loaner')
                     ->where('loaner_id', $userId)
                     ->latest()
                     ->get();
                 break;
     
-            case 'pending_returns': // Producten die terug zijn
+            case 'pending_returns':
                 $products = Product::with('owner', 'loaner')
                     ->where('owner_id', $userId)
-                    ->whereIn('id', $pendingReturns) // Bijv. een 'returned' kolom
+                    ->whereIn('id', $pendingReturns)
                     ->latest()
                     ->get();
                 break;
@@ -56,7 +56,7 @@ class PendingReturnController extends Controller
                     ->get();
                 break;
 
-            default: // Geen filter: toon alles
+            default: 
                 $products = Product::with('owner', 'loaner')
                     ->where('owner_id', $userId)
                     ->where('loaner_id', $userId)
@@ -64,8 +64,7 @@ class PendingReturnController extends Controller
                     ->get();
                 break;
         }
-    
-        // dd($products, $pendingReturns, $filter);
+
 
         return view('products.overview', [
             'products' => $products,

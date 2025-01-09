@@ -69,10 +69,10 @@ class ReviewController extends Controller
         } elseif ($filter === 'receivedReviews') {
             $query->where('reviewLoaner_id', $userId);
         } else {
-            $query->where('reviewer_id', $userId); // Toon standaard 'sentReviews'
+            $query->where('reviewer_id', $userId); 
         }
     
-        // Pas de sorteervolgorde toe
+        
         if ($sortRating === 'lowToHigh') {
             $query->orderBy('rating', 'asc');
         } elseif ($sortRating === 'highToLow') {
@@ -85,7 +85,7 @@ class ReviewController extends Controller
             $query->orderBy('created_at', 'desc');
         }
     
-        // Voer de query uit
+        
         $reviews = $query->get();
     
         return view('profile.reviews', [

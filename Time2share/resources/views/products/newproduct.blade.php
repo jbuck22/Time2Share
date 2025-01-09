@@ -11,7 +11,6 @@
                     <h2 class="font-semibold text-xl text-black-800 leading-tight mb-6">Nieuw Product Aanmaken</h2>
                     <form method="POST" action="{{ route('products.store') }}"  enctype="multipart/form-data">
                         @csrf
-                        <!-- Naam van het product -->
                         <div class="mb-4">
                             <label for="name" class="block text-gray-700 font-medium">Naam van het product</label>
                             <input 
@@ -25,7 +24,6 @@
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
-                        <!-- Omschrijving -->
                         <div class="mb-4">
                             <label for="description" class="block text-gray-700 font-medium">Omschrijving</label>
                             <textarea 
@@ -39,7 +37,6 @@
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
-                        <!-- Categorie -->
                         <div class="mb-4">
                             <label for="category" class="block text-gray-700 font-medium">Categorie</label>
                             <input 
@@ -64,7 +61,6 @@
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                         </div>
 
-                        <!-- Deadline -->
                         <div class="mb-4">
                             <label for="deadline" class="block text-gray-700 font-medium">Deadline</label>
                             <input 
@@ -78,7 +74,6 @@
                             <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
                         </div>
 
-                        <!-- Verstuur knop -->
                         <div class="flex justify-end">
                             <x-primary-button id="primaryButton">{{ __('Product Aanmaken') }}</x-primary-button>
                         </div>

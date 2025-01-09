@@ -32,7 +32,6 @@
             @foreach ($products as $product)
                 <div class="product_box">
                     <div class="product_header">
-                        {{-- Profiel Foto --}}
                         @if($product->owner->pfp)
                             <img 
                                 src="{{ asset('storage/' . $product->owner->pfp) }}" 
@@ -44,11 +43,10 @@
                                 alt="Default Profile Picture"
                             >
                         @endif
-                        {{-- Naam en Datum --}}
                         @if (Auth::user()->id === $product->owner->id)
                             <div>
                                     <span class="owner_name">{{ "You" }}</span>
-                                    <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                                    <span class="created_date">{{ "Created this product on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                                     @if ($product->loaner)
                                         <span class="created_date">
                                             {{ "loaned by:" }} {{ $product->loaner->name }}
@@ -59,20 +57,18 @@
                         @else
                             <div>
                                 <span class="owner_name">{{ $product->owner->name }}</span>
-                                <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                                <span class="created_date">{{ "Created this product on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                             </div>
                         @endif
 
              
                     </div>
 
-                    {{-- Content: Product Naam & Beschrijving --}}
                     <div class="product_content">
                         <p class="product_name">{{ $product->name }}</p>
                         <p class="product_description">{{ $product->description }}</p>
                     </div>
 
-                    {{-- Afbeelding --}}
                     @if($product->image)
                         <img 
                             src="{{ asset('storage/' . $product->image) }}" 

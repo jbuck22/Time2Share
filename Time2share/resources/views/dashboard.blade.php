@@ -97,12 +97,12 @@
                         @if (Auth::user()->id === $product->owner->id)
                             <div>
                                     <span class="owner_name">{{ "You" }}</span>
-                                    <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                                    <span class="created_date">{{ "Created this product on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                             </div>
                         @else
                             <div>
                                 <span class="owner_name">{{ $product->owner->name }}</span>
-                                <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                                <span class="created_date">{{ "Created this product on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                             </div>
                             <div class="product_actions">
                                 <a href="{{ route('products.loanForm', $product->id) }}">

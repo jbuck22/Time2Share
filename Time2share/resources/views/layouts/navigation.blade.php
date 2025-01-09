@@ -118,6 +118,11 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
+
+                <x-responsive-nav-link :href="route('profile.reviews')">
+                    {{ __('My reviews') }}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
