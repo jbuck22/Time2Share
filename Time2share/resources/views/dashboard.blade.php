@@ -113,7 +113,10 @@
                     </div>
     
                     <div class="product_content">
-                        <p class="product_name">{{ $product->name }}</p>
+                        <div>
+                            <span class="product_name">{{ $product->name }}</span>
+                            <span class="product_category">{{ "Category:" }} {{ $product->category }}</span>
+                        </div>
                         <p class="product_description">{{ $product->description }}</p>
                     </div>
     
