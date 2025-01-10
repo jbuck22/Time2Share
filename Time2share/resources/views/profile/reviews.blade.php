@@ -62,6 +62,9 @@
                     <span class="owner_name">{{ $review->reviewer->name }}</span>
                     <span class="review_loan_text"> {{ "To:" }} {{ "You" }} {{ "- For the product:" }} {{ $review->product->name }}</span>
                 </div>
+                <div class="product_actions">
+                    <span class="owner_name">{{ $review->rating }} {{"/ 10"}}</span>
+                </div>
                 @endif
             </div>
 
