@@ -46,7 +46,7 @@
                         @if (Auth::user()->id === $product->owner->id)
                             <div>
                                     <span class="owner_name">{{ "You" }}</span>
-                                    <span class="created_date">{{ "Created this product on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                                    <span class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                                     @if ($product->loaner)
                                         <span class="created_date">
                                             {{ "loaned by:" }} {{ $product->loaner->name }}
@@ -57,7 +57,7 @@
                         @else
                             <div>
                                 <span class="owner_name">{{ $product->owner->name }}</span>
-                                <span class="created_date">{{ "Created this product on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                                <span class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                             </div>
                         @endif
 

@@ -42,7 +42,7 @@
                 {{-- Naam en Datum --}}
                 <div>
                     <span class="owner_name">{{ $product->owner->name }}</span>
-                    <span class="created_date">{{ "Posted on" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
+                    <span class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
                 </div>
             </div>
 
