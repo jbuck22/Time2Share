@@ -5,10 +5,10 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <section class="py-12">
 
-        <div class="filters">
-            <div class="filters_buttons">
+        <section class="filters">
+            <section class="filters_buttons">
                 <small class="sortby_title"> Filter by:</small>
                 <a href="{{ route('profile.reviews', array_merge(request()->query(), ['filter' => 'sentReviews'])) }}" class="btn btn-primary">
                     <x-primary-button id="primaryButton" class="mt-4"> {{__('Sent reviews')}} </x-primary-button>
@@ -17,8 +17,8 @@
                     <x-primary-button id="primaryButton" class="mt-4"> {{__('Received reviews')}} </x-primary-button>
                 </a>
                 <br>    
-            </div>
-            <div class="sortby_buttons"> 
+            </section>
+            <section class="sortby_buttons"> 
                 <small class="sortby_title"> Sort by:</small>
                 <a href="{{ route('profile.reviews', array_merge(request()->except('sortDate'), ['sortRating' => 'highToLow'])) }}" class="btn btn-primary">
                      <x-primary-button id="primaryButton" class="mt-4"> {{__('Rating: highest')}} </x-primary-button>
@@ -32,12 +32,12 @@
                 <a href="{{ route('profile.reviews', array_merge(request()->except('sortRating'), ['sortDate' => 'newFirst'])) }}" class="btn btn-primary">
                     <x-primary-button id="primaryButton" class="mt-4"> {{__('Date: Newest')}} </x-primary-button>
                 </a>
-            </div>
-        </div>
+            </section>
+        </section>
 
         @foreach ($reviews as $review)
-        <div class="product_box">
-            <div class="product_header">
+        <section class="product_box">
+            <section class="product_header">
                 @if($review->reviewer->pfp)
                 <img 
                     src="{{ asset('storage/' . $review->reviewer->pfp) }}" 
@@ -50,29 +50,26 @@
                     >
                 @endif
                 @if ($review->reviewer_id === auth()->id())
-                <div>
-                    <span class="owner_name">{{ "You" }}</span>
-                    <span class="review_loan_text"> {{ "To:" }} {{ $review->reviewloaner->name }} {{ "- For the product:" }} {{ $review->product->name }}</span>
-                </div>
-                <div class="product_actions">
-                    <span class="owner_name">{{ $review->rating }} {{"/ 10"}}</span>
-                </div>
+                <section>
+                    <p class="owner_name">{{ "You" }}</p>
+                    <p class="review_loan_text"> {{ "To:" }} {{ $review->reviewloaner->name }} {{ "- For the product:" }} {{ $review->product->name }}</p>
+                </section>
                 @else
-                <div>
-                    <span class="owner_name">{{ $review->reviewer->name }}</span>
-                    <span class="review_loan_text"> {{ "To:" }} {{ "You" }} {{ "- For the product:" }} {{ $review->product->name }}</span>
-                </div>
-                <div class="product_actions">
-                    <span class="owner_name">{{ $review->rating }} {{"/ 10"}}</span>
-                </div>
+                <section>
+                    <p class="owner_name">{{ $review->reviewer->name }}</p>
+                    <p class="review_loan_text"> {{ "To:" }} {{ "You" }} {{ "- For the product:" }} {{ $review->product->name }}</p>
+                </section>
                 @endif
-            </div>
+            </section>
 
-            <div class="product_content">
-                <p class="product_name">{{ $review->title }}</p>
+            <section class="product_content">
+                <section>
+                    <p class="product_name">{{ $review->title }}</p>
+                    <p class="owner_name">{{ $review->rating }} {{"/ 10"}}</p>
+                </section>
                 <p class="product_description">{{ $review->description }}</p>
-            </div>
-        </div>
+            </section>
+        </section>
         @endforeach
-    </div>
+    </section>
 </x-app-layout>

@@ -24,7 +24,7 @@
         </h2>
     </x-slot>
 
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
+    <section class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
         <form method="GET" action="{{ route('products.showDashboard') }}">
             @csrf
             <input
@@ -36,53 +36,13 @@
                 />
                 <x-primary-button id="primaryButton" class="mt-4" style="margin-top: 2%;">{{ __('Search') }}</x-primary-button>
         </form>
-    </div>
+    </section>
 
-    <div class="py-12">
+    <section class="py-12">
         @foreach ($products as $product)
             @if (!$product->loaner)
-                <div class="product_box">
-                    @if(Auth::user()->admin)
-                    <div id="admin_dropdown" class="hidden sm:flex sm:items-center sm:ms-6">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                    <div>
-                                        {{ "Admin" }}
-                                    </div>
-                                    <div class="ms-1">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </button>
-                            </x-slot>
-
-                            <x-slot name="content">
-                                <div class="admin_content">
-                                    @if ($product->owner->blocked)
-                                        <form method="POST" action="{{ route('user.unblock', $product) }}" class="flex-1 mb-2">
-                                            @csrf
-                                            <x-primary-button id="primaryButton" type="submit">{{ __('Unblock user') }}</x-primary-button>
-                                        </form>
-                                    @else
-                                        <form method="POST" action="{{ route('user.block', $product) }}" class="flex-1 mb-2">
-                                            @csrf
-                                            <x-primary-button id="primaryButton" type="submit">{{ __('Block user') }}</x-primary-button>
-                                        </form>
-                                    @endif
-            
-                                    <form method="POST" action="{{ route('product.delete', $product) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <x-primary-button id="primaryButton" type="submit">{{ __('Delete product') }}</x-primary-button>
-                                    </form>
-                                </div>
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
-                    @endif
-                    <div class="product_header">
+                <section class="product_box">
+                    <section class="product_header">
                         @if($product->owner->pfp)
                             <img 
                                 src="{{ asset('storage/' . $product->owner->pfp) }}" 
@@ -95,30 +55,64 @@
                             >
                         @endif
                         @if (Auth::user()->id === $product->owner->id)
-                            <div>
-                                    <span class="owner_name">{{ "You" }}</span>
-                                    <span class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
-                            </div>
+                            <section>
+                                    <p class="owner_name">{{ "You" }}</p>
+                                    <p class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</p>
+                            </section>
                         @else
-                            <div>
-                                <span class="owner_name">{{ $product->owner->name }}</span>
-                                <span class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</span>
-                            </div>
-                            <div class="product_actions">
-                                <a href="{{ route('products.loanForm', $product->id) }}">
-                                    <button>{{ __('Loan') }}</button>
-                                </a>
-                            </div>
+                            <section>
+                                <p class="owner_name">{{ $product->owner->name }}</p>
+                                <p class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</p>
+                            </section>
                         @endif
-                    </div>
+                        @if(Auth::user()->admin)
+                        <section id="admin_dropdown" class="sm:flex sm:items-center sm:ms-6">
+                            <x-dropdown align="top" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                        <section>
+                                            {{ "Admin" }}
+                                        </section>
+                                        <section class="ms-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </section>
+                                    </button>
+                                </x-slot>
     
-                    <div class="product_content">
-                        <div>
-                            <span class="product_name">{{ $product->name }}</span>
-                            <span class="product_category">{{ "Category:" }} {{ $product->category }}</span>
-                        </div>
+                                <x-slot name="content">
+                                    <section class="admin_content">
+                                        @if ($product->owner->blocked)
+                                            <form method="POST" action="{{ route('user.unblock', $product) }}" class="flex-1 mb-2">
+                                                @csrf
+                                                <x-primary-button id="primaryButton" type="submit">{{ __('Unblock user') }}</x-primary-button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="{{ route('user.block', $product) }}" class="flex-1 mb-2">
+                                                @csrf
+                                                <x-primary-button id="primaryButton" type="submit">{{ __('Block user') }}</x-primary-button>
+                                            </form>
+                                        @endif
+                
+                                        <form method="POST" action="{{ route('product.delete', $product) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-primary-button id="primaryButton" type="submit">{{ __('Delete product') }}</x-primary-button>
+                                        </form>
+                                    </section>
+                                </x-slot>
+                            </x-dropdown>
+                        </section>
+                        @endif
+                    </section>
+                    <section class="product_content">
+                        <section>
+                            <p class="product_name">{{ $product->name }}</p>
+                            <p class="product_category">{{ "Category:" }} {{ $product->category }}</p>
+                        </section>
                         <p class="product_description">{{ $product->description }}</p>
-                    </div>
+                    </section>
     
                     @if($product->image)
                         <img 
@@ -127,10 +121,17 @@
                             class="product_image"
                         >
                     @endif
-                </div>
+                    @if (Auth::user()->id !== $product->owner->id)
+                        <section class="product_actions">
+                            <a href="{{ route('products.loanForm', $product->id) }}">
+                                <x-primary-button id="primaryButton">{{ __('Loan') }}</x-primary-button>
+                            </a>
+                        </section>
+                    @endif
+                </section>
             @endif
         @endforeach
-    </div>
+    </section>
     
     
 </x-app-layout>

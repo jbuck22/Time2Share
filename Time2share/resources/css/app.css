@@ -38,12 +38,14 @@
     font-size: 1.3rem;
     font-weight: bold;
     color: #333;
+    display: inline;
 }
 
 .product_header .created_date {
     font-size: 0.8rem;
     color: #666;
     margin-left: 0.5rem;
+    display: inline;
 }
 
 .product_content {
@@ -58,6 +60,7 @@
     font-size: 1.3rem;
     font-weight: bold;
     color: #333;
+    display: inline;
 }
 
 .product_content .product_category{
@@ -65,6 +68,7 @@
     color: #666;
     margin-left: 0.5rem;
     font-style: italic;
+    display: inline;
 }
 
 .product_content .product_description {
@@ -82,9 +86,10 @@
     margin: auto;
 }
 
-.product_actions {
-    text-align: right;
-    margin-left: auto;
+.product_actions{
+    width: 50%;
+    margin: auto;
+    padding-top: 1rem;
 }
 
 .product_actions button {
@@ -93,8 +98,11 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 18px;
     cursor: pointer;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
 .product_actions button:hover {
@@ -102,9 +110,7 @@
 }
 
 #admin_dropdown{
-    grid-row-start: 1;
-    grid-column-start: 2;
-    margin: auto;
+    margin-left: auto;
 }
 
 #admin_dropdown button{
@@ -172,6 +178,7 @@
     justify-content: center;
     margin-inline: 0.5rem;
     margin-block: 1rem;
+    font-size: 16px;
 }
 
 .sortby_title{
@@ -219,6 +226,16 @@ input[type="file"] {
     font-size: 1rem;
     color: black;
     margin-left: 0.5rem;
+    display: inline;
+}
+
+.product_content .owner_name{
+    display: inline;
+    margin-left: 1rem;
+}
+
+#accept_return_form{
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -233,9 +250,10 @@ input[type="file"] {
     }
 
     .product_header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
+        align-items: center;
         gap: 0.25rem;
+
     }
 
     .product_header img {
@@ -247,21 +265,18 @@ input[type="file"] {
         margin: 0;
     }
 
-    .filters {
-        flex-direction: column;
-        align-items: center;
+    .product_actions{
+        display: inline;
     }
 
     .filters_buttons #primaryButton,
     .sortby_buttons #primaryButton {
-        width: 100%;
         font-size: 16px;
-        margin: 0.5rem 0;
     }
 
     .filters_buttons,
     .sortby_buttons {
-        gap: 0.5rem;
+        gap: 2rem;
     }
 
     input[type="file"] {
@@ -273,7 +288,19 @@ input[type="file"] {
 @media (max-width: 570px) {
     
     .filters_buttons,
-    .sortby_buttons {
+    .sortby_buttons{
         flex-direction: column;
+        gap: 2rem;
     }
+}
+
+@media (max-width: 475px){
+    #admin_dropdown{
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .x-dropdown{
+        align-content: left;
+    } 
 }
