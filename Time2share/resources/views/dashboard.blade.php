@@ -1,22 +1,3 @@
-@if (Auth::user()->blocked)
-    <x-guest-layout>
-        <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Blocked') }}
-            </h2>
-        </x-slot>
-
-        You have been blocked. Please reach out to an admin to resolve this issue. 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <x-primary-button :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                {{ __('Log Out') }}
-            </x-primary-button>
-        </form>
-    </x-guest-layout>
-@else
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -57,12 +38,12 @@
                         @if (Auth::user()->id === $product->owner->id)
                             <section>
                                     <p class="owner_name">{{ "You" }}</p>
-                                    <p class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</p>
+                                    <p class="created_date">{{ "Avaliable since" }} {{ $product->updated_at->format('j M Y, g:i a') }}</p>
                             </section>
                         @else
                             <section>
                                 <p class="owner_name">{{ $product->owner->name }}</p>
-                                <p class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</p>
+                                <p class="created_date">{{ "Avaliable since" }} {{ $product->updated_at->format('j M Y, g:i a') }}</p>
                             </section>
                         @endif
                         @if(Auth::user()->admin)
@@ -132,7 +113,4 @@
             @endif
         @endforeach
     </section>
-    
-    
 </x-app-layout>
-@endif

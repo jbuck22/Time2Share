@@ -9,8 +9,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use function Ramsey\Uuid\v1;
+
 class ProfileController extends Controller
 {
+    public function showBlocked(): View{
+        return view('profile.blocked');
+    }
+
+
+
     /**
      * Display the user's profile form.
      */

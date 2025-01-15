@@ -103,6 +103,7 @@
     width: 100%;
     align-items: center;
     justify-content: center;
+    height: 3rem;
 }
 
 .product_actions button:hover {
@@ -299,8 +300,4 @@ input[type="file"] {
         margin-right: auto;
         margin-left: 0;
     }
-
-    .x-dropdown{
-        align-content: left;
-    } 
 }

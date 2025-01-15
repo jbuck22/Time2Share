@@ -49,11 +49,21 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [ProductController::class, 'showDashboard'])->name('products.showDashboard');
 
+
+});
+
+Route::middleware(['auth', 'blockedCheck', 'verified'])->group(function () {
+    Route::get('/profile/blocked', [ProfileController::class, 'showBlocked'])->name('profile.blocked');
+});
+
+
+
+Route::middleware(['auth', 'adminCheck', 'verified'])->group(function (){
     Route::post('/products/{product}/block', [UserController::class, 'blockUser'])->name('user.block');
     Route::post('/products/{product}/unblock', [UserController::class, 'unblockUser'])->name('user.unblock');
-    
     Route::delete('products/{product}/delete', [ProductController::class, 'deleteProduct'])->name('product.delete');
 });
+
 
 Route::resource('products', ProductController::class)
     ->only(['index', 'store'])

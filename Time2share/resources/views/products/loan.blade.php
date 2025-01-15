@@ -37,7 +37,7 @@
                 @endif
                 <section>
                     <p class="owner_name">{{ $product->owner->name }}</p>
-                    <p class="created_date">{{ "Avaliable since" }} {{ $product->created_at->format('j M Y, g:i a') }}</p>
+                    <p class="created_date">{{ "Avaliable since" }} {{ $product->updated_at->format('j M Y, g:i a') }}</p>
                 </section>
             </section>
 
