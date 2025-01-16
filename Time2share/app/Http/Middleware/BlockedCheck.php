@@ -18,8 +18,7 @@ class BlockedCheck
     {
      
         if(Auth::user()->blocked){
-            return redirect()->route('profile.blocked');
-
+            return redirect('/blocked');
         }
         return $next($request);
     }

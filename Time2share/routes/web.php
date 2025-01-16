@@ -29,7 +29,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'blockedCheck')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -49,14 +49,11 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [ProductController::class, 'showDashboard'])->name('products.showDashboard');
 
-
 });
 
-Route::middleware(['auth', 'blockedCheck', 'verified'])->group(function () {
-    Route::get('/profile/blocked', [ProfileController::class, 'showBlocked'])->name('profile.blocked');
+Route::get('/blocked', function () {
+    return view('blocked');
 });
-
-
 
 Route::middleware(['auth', 'adminCheck', 'verified'])->group(function (){
     Route::post('/products/{product}/block', [UserController::class, 'blockUser'])->name('user.block');

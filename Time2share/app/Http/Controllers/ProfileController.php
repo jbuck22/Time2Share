@@ -13,12 +13,6 @@ use function Ramsey\Uuid\v1;
 
 class ProfileController extends Controller
 {
-    public function showBlocked(): View{
-        return view('profile.blocked');
-    }
-
-
-
     /**
      * Display the user's profile form.
      */
